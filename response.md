@@ -1,34 +1,41 @@
 # Response
 > Current content is an example; please edit it to fit your style.
 ## A. Required Information
+1. install python to your laptop or pc
+2. git clone this project
+3. open CMD to here
+4. python -m venv venv     for build virtual environment
+5. .\venv\Scripts\activate        to activate virtual environment
+6. run pip install -r requirements.txt        to install all requirement package
 ### A.1. Requirement Completion Rate
 - [x] List all pharmacies open at a specific time and on a day of the week if requested.
-  - Implemented at xxx API.
+  - Implemented at /get_pharmacy_time_day/{input_time}/{input_day} API.
 - [x] List all masks sold by a given pharmacy, sorted by mask name or price.
-  - Implemented at xxx API.
+  - Implemented at /mask/{input_pharmacy_name}/{input_sorted_by} API.
 - [x] List all pharmacies with more or less than x mask products within a price range.
-  - Implemented at xxx API.
+  - Implemented at /mask/{input_mask_name}/{lower_price}/{upper_price} API.
 - [x] The top x users by total transaction amount of masks within a date range.
-  - Implemented at xxx API.
+  - Implemented at /get_total_mask_price/5/2021-1-1/2021-1-3  API.
 - [x] The total number of masks and dollar value of transactions within a date range.
-  - Implemented at xxx API.
+  - Implemented at /get_total_mask_price/{date_front}/{date_end} API.
 - [x] Search for pharmacies or masks by name, ranked by relevance to the search term.
-  - Implemented at xxx API.
-- [x] Process a user purchases a mask from a pharmacy, and handle all relevant data changes in an atomic transaction.
+  - Implemented at /search_word/{key_word} API.
+- [ ] Process a user purchases a mask from a pharmacy, and handle all relevant data changes in an atomic transaction.
   - Implemented at xxx API.
 ### A.2. API Document
-> Please describe how to use the API in the API documentation. You can edit by any format (e.g., Markdown or OpenAPI) or free tools (e.g., [hackMD](https://hackmd.io/), [postman](https://www.postman.com/), [google docs](https://docs.google.com/document/u/0/), or  [swagger](https://swagger.io/specification/)).
-
-Import [this](#api-document) json file to Postman.
+> API Document is here! [swagger UI ](https://localhost:8000/api/ui).
+Before you read API Document, build the api server first. 
+See A.3
 
 ### A.3. Import Data Commands
-Please run these two script commands to migrate the data into the database.
+Please run these script commands to migrate the data into the database.
 
-```bash
-$ rake import_data:pharmacies[PATH_TO_FILE]
-$ rake import_data:users[PATH_TO_FILE]
 ```
-## B. Bonus Information
+$ python app.py
+$ python build_db.py
+$ python load_data.py
+```
+## B. Bonus Information (Not yet)
 
 >  If you completed the bonus requirements, please fill in your task below.
 ### B.1. Test Coverage Report

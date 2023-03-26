@@ -1,0 +1,185 @@
+# swagger.yml
+
+openapi: 3.0.0
+info:
+  title: "RP Flask REST API"
+  description: "An API about people and notes"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+# List all masks sold by a given pharmacy, sorted by mask name or price.
+components:
+  schemas:
+    Person:
+      type: "object"
+      required:
+        - lname
+      properties:
+        fname:
+          type: "string"
+        lname:
+          type: "string"
+  parameters:
+    lname:
+      name: "lname"
+      description: "Last name of the person to get"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    input_pharmacy_name:
+        name: "input_pharmacy_name"
+        description: "input pharmacy_name"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    input_mask_name:
+        name: "input_mask_name"
+        description: "input mask_name"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    input_sorted_by:
+        name: "input_sorted_by"
+        description: "input 'mask_name' or 'price'"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    lower_price:
+        name: "lower_price"
+        description: "input lower_price"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    upper_price:
+        name: "lower_price"
+        description: "input upper_price"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    top_num:
+        name: "top_num"
+        description: "input top_num"
+        in: path
+        required: true
+        schema:
+          type: "integer"
+    date_front:
+        name: "date_front"
+        description: "input date_front"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    date_end:
+        name: "date_end"
+        description: "input date_end"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    key_word:
+        name: "key_word"
+        description: "input key_word"
+        in: path
+        required: true
+        schema:
+          type: "string"
+    input_time:
+        name: "input_time"
+        description: "input input_time"
+        in: path
+        required: true
+        schema:
+          type: "integer"
+    input_day:
+        name: "input_day"
+        description: "input input_day"
+        in: path
+        required: true
+        schema:
+          type: "integer"
+
+paths:
+  /mask/{input_pharmacy_name}/{input_sorted_by}:
+    get:
+      operationId: "mask.get_sold"
+      tags:
+        - "order history"
+      summary: "List all masks sold by a given pharmacy, sorted by 'maskname' or 'price'."
+      parameters:
+        - $ref: "#/components/parameters/input_pharmacy_name"
+        - $ref: "#/components/parameters/input_sorted_by"
+      responses:
+        "200":
+          description: "Successfully read mask list"
+  /mask/{input_mask_name}/{lower_price}/{upper_price}:
+    get:
+      operationId: "mask.get_mask_within_price"
+      tags:
+        - "pharmacies"
+      summary: " List all pharmacies with more or less than x mask products within a price range."
+      parameters:
+        - $ref: "#/components/parameters/input_mask_name"
+        - $ref: "#/components/parameters/lower_price"
+        - $ref: "#/components/parameters/upper_price"
+      responses:
+        "200":
+          description: "Successfully read mask list"
+  /orderList/{top_num}/{date_front}/{date_end}:
+    get:
+      operationId: "orderList.get_top_user"
+      tags:
+        - "order history"
+      summary: "The top x users by total transaction amount of masks within a date range.
+      for example /get_total_mask_price/5/2021-1-1/2021-1-3 "
+      parameters:
+        - $ref: "#/components/parameters/top_num"
+        - $ref: "#/components/parameters/date_front"
+        - $ref: "#/components/parameters/date_end"
+      responses:
+        "200":
+          description: "Successfully read mask list"
+  /get_total_mask_price/{date_front}/{date_end}:
+    get:
+      operationId: "orderList.get_total_mask_price"
+      tags:
+        - "mask"
+      summary: "The total number of masks and dollar value of transactions within a date range.
+      for example /get_total_mask_price/2021-1-1/2021-1-3"
+      parameters:
+        - $ref: "#/components/parameters/date_front"
+        - $ref: "#/components/parameters/date_end"
+      responses:
+        "200":
+          description: "Successfully read list"
+  /search_word/{key_word}:
+    get:
+      operationId: "utils.search_word"
+      tags:
+        - "search_word"
+      summary: "Search for pharmacies or masks by name, ranked by relevance to the search term."
+      parameters:
+        - $ref: "#/components/parameters/key_word"
+      responses:
+        "200":
+          description: "Successfully read list"
+  /get_pharmacy_time_day/{input_time}/{input_day}:
+    get:
+      operationId: "pharmacy.get_pharmacy_time_day"
+      tags:
+        - "pharmacies"
+      summary: "List all pharmacies open at a specific time and on a day of the week if requested. 
+                for example /get_pharmacy_time_day/17/6     17 means 17:00, 6 means Saturday"
+      parameters:
+        - $ref: "#/components/parameters/input_time"
+        - $ref: "#/components/parameters/input_day"
+      responses:
+        "200":
+          description: "Successfully read list"
